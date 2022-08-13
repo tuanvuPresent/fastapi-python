@@ -13,7 +13,7 @@ book_router = APIRouter()
 
 
 @cbv(book_router)
-class MyApi:
+class BookApiView:
 
     @book_router.post("/books/", response_model=DataResponse[BookSchemaResponse])
     async def create_books(self, data: BookSchemaRequest):
