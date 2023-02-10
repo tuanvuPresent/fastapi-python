@@ -4,6 +4,8 @@ from starlette.middleware.cors import CORSMiddleware
 from app.api.router import api
 from app.core.exception_handler import exception_handler
 from app.core.settings import settings
+from celery_app.tasks import create_tasks
+
 
 app = FastAPI()
 app.add_middleware(
@@ -16,3 +18,9 @@ app.add_middleware(
 app.add_exception_handler(HTTPException, exception_handler)
 
 app.include_router(api, prefix='/api/v1')
+
+
+@app.get("/background-tasks")
+async def background_tasks():
+    create_tasks.delay(1, 2, 3)
+    return {"message": "Run background"}

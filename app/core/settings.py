@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = 'HS256'
     JWT_EXPIRATION_DELTA: int
+    CELERY_BROKER_URL: str
+
 
     @validator("BACKEND_CORS_ORIGINS")
     def assemble_cors_origins(cls, v: str):

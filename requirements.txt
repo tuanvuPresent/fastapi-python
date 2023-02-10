@@ -3,5 +3,7 @@ fastapi_restful==0.4.3
 pydantic==1.9.0
 SQLAlchemy==1.4.40
 starlette==0.19.1
-uvicorn
-mysqlclient
+uvicorn==0.20.0
+mysqlclient==2.1.1
+redis==4.4.2
+celery==5.2.7
