@@ -1,9 +1,10 @@
-fastapi==0.79.0
+fastapi==0.89.0
 fastapi_restful==0.4.3
 pydantic==1.9.0
 SQLAlchemy==1.4.40
-starlette==0.19.1
+starlette==0.22.0
 uvicorn==0.20.0
 mysqlclient==2.1.1
 redis==4.4.2
 celery==5.2.7
+fastapi-debug-toolbar==0.4.0
