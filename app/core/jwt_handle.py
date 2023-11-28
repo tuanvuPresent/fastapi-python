@@ -23,11 +23,11 @@ def jwt_decode_handler(token):
 
 def jwt_payload_handler(user, timestamp):
     return {
-        'user_id': user.get('id'),
+        'sub': user.get('id'),
         'exp': datetime.now() + timedelta(settings.JWT_EXPIRATION_DELTA),
-        'orig_iat': timestamp
+        'iat': timestamp
     }
 
 
 def jwt_get_user(payload):
-    return payload.get('user_id')
+    return payload.get('sub')

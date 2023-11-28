@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from app.api.books.router import book_router
+from app.api.samples.router import sample_router
 
 api = APIRouter()
 
-api.include_router(book_router, tags=['books'])
+api.include_router(sample_router, tags=['samples'])

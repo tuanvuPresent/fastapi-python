@@ -3,7 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter
 from fastapi_restful.cbv import cbv
 
-from app.api.auth.schema import LoginRequestResponse, LoginRequestSchema
+from .schema import LoginRequestResponse, LoginRequestSchema
 from app.core.jwt_handle import jwt_payload_handler, jwt_encode_handler
 from app.core.schema import DataResponse
 

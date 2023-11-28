@@ -5,8 +5,8 @@ from sqlalchemy import Column, Integer, String, TIMESTAMP
 from app.core.database import Base
 
 
-class Book(Base):
-    __tablename__ = "books"
+class Sample(Base):
+    __tablename__ = "samples"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String)

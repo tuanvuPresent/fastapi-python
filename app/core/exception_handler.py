@@ -12,15 +12,21 @@ class CustomException(HTTPException):
     code: str
     message: str
 
-    def __init__(self, status_code: int = 400, code: str = None, message: str = None):
-        self.status_code = status_code if status_code else 500
-        self.code = code if code else str(self.status_code)
-        self.message = message
+    def __init__(self, error: ErrorMessage, status_code: int = 400):
+        self.status_code = status_code
+        self.code = error.code
+        self.message = error.message
 
 
 async def exception_handler(request: Request, exc: HTTPException):
     if not isinstance(exc, CustomException):
-        exc = CustomException(**ErrorMessage.SERVER_ERROR)
+        exc = CustomException(ErrorMessage.SERVER_ERROR)
+    if exc.code == ErrorMessage.INVALID_AUTH.code:
+        exc.status_code = 401
+    if exc.code == ErrorMessage.NOT_PERMISSION.code:
+        exc.status_code = 403
+    if exc.code == ErrorMessage.NOT_FOUND.code:
+        exc.status_code = 404
 
     return JSONResponse(
         status_code=exc.status_code,

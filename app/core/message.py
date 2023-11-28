@@ -1,28 +1,17 @@
-from starlette import status
-
-from app.api.books.constants import BOOK_NAME_MAX_LENGTH
+from enum import Enum
 
 
-class ErrorKey:
-    status_code = 'status_code'
-    message = 'message'
-    code = 'code'
-
-
-class ErrorMessage:
-    SERVER_ERROR = {
-        ErrorKey.status_code: status.HTTP_500_INTERNAL_SERVER_ERROR,
-        ErrorKey.code: 1000,
-        ErrorKey.message: 'An error occurred, please try again'
-    }
-
-    NOT_FOUND = {
-        ErrorKey.status_code: status.HTTP_404_NOT_FOUND,
-        ErrorKey.code: 1001,
-        ErrorKey.message: 'Not found'
-    }
-
-    BOOK_NAME_MAX_LENGTH = {
-        ErrorKey.code: 1002,
-        ErrorKey.message: 'Max length not than {}'.format(BOOK_NAME_MAX_LENGTH)
-    }
+class ErrorMessage(Enum):
+    def __new__(cls, code, message):
+        obj = object.__new__(cls)
+        obj._value_ = code
+        obj.code = code
+        obj.message = message
+        return obj
+    
+    
+    SERVER_ERROR = (10001, 'An error occurred, please try again')
+    NOT_FOUND = (10002, 'Not found')
+    INVALID_AUTH = (10003, 'Not authenticated')
+    NOT_PERMISSION = (10004, 'Not permission denied')
+    BOOK_NAME_MAX_LENGTH = (10005, 'Max length not than 63')

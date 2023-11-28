@@ -9,6 +9,8 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str = 'HS256'
     JWT_EXPIRATION_DELTA: int
     CELERY_BROKER_URL: str
+    SENTRY_DNS: str
+    DEBUG: bool
 
 
     @validator("BACKEND_CORS_ORIGINS")

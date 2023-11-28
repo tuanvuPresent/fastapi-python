@@ -1,25 +1,28 @@
-from app.api.books.models import Book
-from app.api.books.schema import BookSchemaRequest
 from app.core.database import SessionLocal
 
 
-class BookService:
+class BaseRepository:
     session = SessionLocal()
-    model = Book
+    model = None
 
-    def create(self, data: BookSchemaRequest):
-        book = self.model(**data.dict())
-        self.session.add(book)
+    def create(self, data: dict):
+        instance = self.model(**data.dict())
+        self.session.add(instance)
         self.session.commit()
-        return book
+        return instance
 
-    def list(self, limit, offset):
-        return list(self.session.query(self.model).limit(limit).offset(offset))
+    def list(self, filters: dict = {}, pagination=None):
+        queryset = self.session.query(self.model).filter_by(**filters)
+        if pagination:
+            total = queryset.count()
+            queryset = queryset.limit(pagination.limit).offset(pagination.offset)
+            return pagination.response_pagination(queryset, total)
+        return list(queryset)
 
     def get(self, id):
         return self.session.query(self.model).filter_by(id=id).first()
 
-    def update(self, id, data: BookSchemaRequest):
+    def update(self, id, data: dict):
         instance = self.session.query(self.model).filter_by(id=id).first()
         if instance:
             for field, value in data.dict().items():
