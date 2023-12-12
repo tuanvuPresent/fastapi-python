@@ -18,17 +18,3 @@ class DataResponse(ResponseSchemaBase, GenericModel, Generic[T]):
 
     class Config:
         arbitrary_types_allowed = True
-
-    def custom_response(self, message, code: str = '', data: T = None):
-        self.status = False
-        self.code = code
-        self.message = message
-        self.data = data
-        return self
-
-    def success_response(self, data: T = None):
-        self.status = True
-        self.code = '0'
-        self.message = ''
-        self.data = data
-        return self

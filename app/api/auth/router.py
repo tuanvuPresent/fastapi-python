@@ -18,6 +18,6 @@ class AuthApiView:
         # extra login here
         timestamp = datetime.now().timestamp()
         payload = jwt_payload_handler({'id': data.username}, timestamp)
-        return DataResponse().success_response({
+        return DataResponse(data={
             'token': jwt_encode_handler(payload)
         })

@@ -22,7 +22,7 @@ sample_router = APIRouter()
 class SampleApiView:
     @sample_router.post("/samples/", response_model=DataResponse[SampleSchemaResponse])
     async def create(self, data: SampleSchemaRequest):
-        return DataResponse().success_response(SampleService().create(data))
+        return DataResponse(data=SampleService().create(data))
 
     @sample_router.get("/samples/", response_model=DataResponse[SampleListPaginationSchema])
     async def list(
@@ -30,16 +30,14 @@ class SampleApiView:
         pagination: LimitOffsetPagination = Depends(),
         filter_kwargs: SampleFilter = Depends(),
     ):  
-        return DataResponse().success_response(
-            SampleService().list(filter_kwargs.dict(), pagination)
-        )
+        return DataResponse(data=SampleService().list(filter_kwargs.dict(), pagination))
 
     @sample_router.get("/samples/{id}", response_model=DataResponse[SampleSchema])
     async def retrieve(self, id: str):
         book = SampleService().get(id)
         if book is None:
             raise CustomException(ErrorMessage.NOT_FOUND)
-        return DataResponse().success_response(book)
+        return DataResponse(data=book)
 
     @sample_router.put(
         "/samples/{id}", response_model=DataResponse[SampleSchemaResponse]
@@ -48,7 +46,7 @@ class SampleApiView:
         book = SampleService().update(id, data)
         if book is None:
             raise CustomException(ErrorMessage.NOT_FOUND)
-        return DataResponse().success_response(book)
+        return DataResponse(data=book)
 
     @sample_router.delete(
         "/samples/{id}", response_model=DataResponse[SampleSchemaResponse]
@@ -57,4 +55,4 @@ class SampleApiView:
         book = SampleService().delete(id)
         if book is None:
             raise CustomException(ErrorMessage.NOT_FOUND)
-        return DataResponse().success_response(book)
+        return DataResponse(data=book)
